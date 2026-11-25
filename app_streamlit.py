@@ -14,6 +14,35 @@ API_URL = os.environ.get("API_URL", "http://localhost:8000").rstrip("/")
 st.set_page_config(page_title="Radar de streamers de Twitch", page_icon="📈", layout="wide")
 
 
+# ---------- arranque automático de la API (para hosting gratis sin Docker) ----------
+# Si la API no está andando (caso Streamlit Cloud), la levanta en segundo plano dentro del mismo
+# servidor. La interfaz igual le habla por HTTP, como si fuera un servicio aparte.
+@st.cache_resource
+def asegurar_api():
+    import threading
+    import time
+
+    def api_responde():
+        try:
+            return requests.get(API_URL + "/salud", timeout=2).status_code == 200
+        except requests.exceptions.RequestException:
+            return False
+
+    if api_responde() or os.environ.get("API_URL"):
+        return
+    import uvicorn
+    from api import app as app_api
+    config = uvicorn.Config(app_api, host="127.0.0.1", port=8000, log_level="warning")
+    threading.Thread(target=uvicorn.Server(config).run, daemon=True).start()
+    for _ in range(30):
+        if api_responde():
+            return
+        time.sleep(0.5)
+
+
+asegurar_api()
+
+
 # ---------- comunicación con la API ----------
 def llamar_api(metodo, ruta, **kwargs):
     """Hace el pedido a la API y devuelve (datos, mensaje_de_error)."""
