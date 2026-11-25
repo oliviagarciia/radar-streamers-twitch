@@ -1,0 +1,59 @@
+{
+  "modelo": "Random Forest",
+  "fecha": "2026-11-04",
+  "objetivo": "ln(seguidores_2024 / seguidores_2020)",
+  "umbral_viewers_2020_percentil_25": 1255.5,
+  "idiomas_top": [
+    "English",
+    "French",
+    "Spanish",
+    "Russian",
+    "Portuguese",
+    "German"
+  ],
+  "categorias_top": [
+    "Just Chatting",
+    "League of Legends",
+    "Grand Theft Auto V",
+    "Call Of Duty: Modern Warfare",
+    "Minecraft",
+    "Fortnite",
+    "Escape From Tarkov",
+    "Dota 2",
+    "VALORANT",
+    "World of Warcraft"
+  ],
+  "variables": {
+    "numericas": [
+      "log_followers",
+      "log_avg_viewers",
+      "log_peak_viewers",
+      "log_stream_time",
+      "log_watch_time",
+      "slog_followers_gained",
+      "log_views_gained",
+      "past_growth_rate"
+    ],
+    "binarias": [
+      "partnered",
+      "mature"
+    ],
+    "categoricas": [
+      "language_grp",
+      "category_grp"
+    ]
+  },
+  "filas_entrenamiento": 359,
+  "metricas_validacion_cruzada": {
+    "MAE (media)": 0.302,
+    "MAE (desvío entre particiones)": 0.016,
+    "R2 (media)": 0.423,
+    "Spearman": 0.745,
+    "Precisión top 10%": 0.333
+  },
+  "versiones": {
+    "scikit-learn": "1.6.1",
+    "pandas": "2.2.3",
+    "numpy": "2.4.6"
+  }
+}
