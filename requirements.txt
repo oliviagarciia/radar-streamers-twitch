@@ -1,0 +1,12 @@
+# Versiones iguales a las del Colab donde se entrenó el modelo (si cambia scikit-learn, el .joblib puede fallar)
+scikit-learn==1.6.1
+pandas==2.2.3
+numpy<2.3
+joblib
+fastapi
+uvicorn[standard]
+python-multipart
+streamlit
+requests
+pytest
+httpx
